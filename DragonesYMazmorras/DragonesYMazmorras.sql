@@ -19,6 +19,16 @@ CREATE TABLE Clases (
  claseMagica BOOLEAN
 );
 
+CREATE TABLE Atributos (
+ idSetAtributos INT PRIMARY KEY,
+ fuerza INT default 10,
+ destreza INT default 10,
+ constitucion INT default 10,
+ inteligencia INT  default 10,
+ sabiduria INT default 10,
+ carisma INT default 10
+);
+
 CREATE TABLE Armas (
  idArma INT PRIMARY KEY,
  nombre VARCHAR(30),
@@ -36,7 +46,9 @@ CREATE TABLE Suministros (
 
 CREATE TABLE Equipamiento (
  idEquipamiento INT PRIMARY KEY,
- Suministros VARCHAR(30),
+ nombre VARCHAR(20),
+ peso INT,
+ Suministros INT,
  CONSTRAINT fk_suministros FOREIGN KEY (Suministros) REFERENCES Suministros(idSuministro)
 );
 
@@ -45,12 +57,11 @@ CREATE TABLE Personaje (
  nombre VARCHAR(20),
  nivel INT,
  raza INT,
- clase INT,
  arma INT,
  atributos VARCHAR(20),
  CONSTRAINT fk_raza FOREIGN KEY (raza) REFERENCES Razas(idRaza),
- CONSTRAINT fk_clase FOREIGN KEY (clase) REFERENCES Clases(idClase),
- CONSTRAINT fk_arma FOREIGN KEY (arma) REFERENCES Armas(idArma)
+ CONSTRAINT fk_arma FOREIGN KEY (arma) REFERENCES Armas(idArma),
+ CONSTRAINT fk_atributos FOREIGN KEY (atributos) REFERENCES Atributos(idSetAtributos)
 );
 
 CREATE TABLE Jugable (
@@ -71,20 +82,11 @@ CREATE TABLE NoJugable (
 );
 
 CREATE TABLE Mazmorras (
- idMazmorra INT PRIMARY KEY
-);
-
-CREATE TABLE Mazmorra_tiene_salas (
- idMazmorra INT,
- idSala INT,
+ idMazmorra INT PRIMARY KEY,
+ numSalas INT,
  dificultad VARCHAR(20),
- PRIMARY KEY (idMazmorra, idSala)
-);
-
-CREATE TABLE Salas (
- idSala INT PRIMARY KEY,
- desafioSala INT,
- CONSTRAINT fk_desafioSala FOREIGN KEY (desafioSala) REFERENCES Desafio(idDesafio)
+ desafio INT,
+ CONSTRAINT fk_desafioSala FOREIGN KEY (desafio) REFERENCES Desafio(idDesafio)
 );
 
 CREATE TABLE Desafio (
@@ -93,6 +95,8 @@ CREATE TABLE Desafio (
 
 CREATE TABLE Acertijo (
  idAcertijo INT PRIMARY KEY,
+ pregunta VARCHAR(255),
+ respuesta VARCHAR(255),
  CONSTRAINT fk_acertijo FOREIGN KEY (idAcertijo) REFERENCES Desafio(idDesafio)
 );
 
