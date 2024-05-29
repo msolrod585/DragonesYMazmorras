@@ -200,30 +200,24 @@ public class Tablero {
 				personajeAModificar.setNombre(nuevoNombre);
 			}
 			System.out.print("Nivel: ");
-			String nuevoNivel = sc.nextLine();
-			if (!nuevoNivel.isEmpty()) {
-				personajeAModificar.setNivel(Integer.parseInt(nuevoNivel));
-			}
+			int nuevoNivel = sc.nextInt();
+			personajeAModificar.setNivel(nuevoNivel);
+			sc.nextLine();
 			System.out.print("Clase: ");
-			String nuevaClase = sc.nextLine();
-			if (!nuevaClase.isEmpty()) {
-				personajeAModificar.setNivel(Integer.parseInt(nuevoNivel));
-			}
+			String clase = sc.nextLine();
+			Clase claseElegida = clases.stream().filter(c -> c.getNombre().equals(clase)).findFirst().orElse(null);
+			personajeAModificar.setClase(claseElegida);
 			System.out.print("Raza: ");
-			String nuevaRaza = sc.nextLine();
-			if (!nuevaRaza.isEmpty()) {
-				personajeAModificar.setNivel(Integer.parseInt(nuevoNivel));
-			}
+			String raza = sc.nextLine();
+			Raza razaElegida = razas.stream().filter(r -> r.getNombre().equals(raza)).findFirst().orElse(null);
+			personajeAModificar.setRaza(razaElegida);
 			System.out.print("Arma: ");
-			String nuevaArma = sc.nextLine();
-			if (!nuevoNivel.isEmpty()) {
-				personajeAModificar.setNivel(Integer.parseInt(nuevoNivel));
-			}
-			System.out.print("Equipo: ");
-			String nuevoEquipo = sc.nextLine();
-			if (!nuevoNivel.isEmpty()) {
-				personajeAModificar.setNivel(Integer.parseInt(nuevoNivel));
-			}
+			String arma = sc.nextLine();
+			Armas armaElegida = armas.stream().filter(a -> a.getNombre().equals(arma)).findFirst().orElse(null);
+			personajeAModificar.setArma(armaElegida);
+			System.out.print("Oro: ");
+			int nuevoOro = sc.nextInt();
+			personajeAModificar.setOro(nuevoOro);
 			
 			JugableDAO.actualizarJugable(personajeAModificar);
 			System.out.println("Personaje modificado exitosamente.");
