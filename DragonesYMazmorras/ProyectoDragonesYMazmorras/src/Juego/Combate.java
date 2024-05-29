@@ -1,25 +1,23 @@
 package Juego;
 
-public class Combate extends Desafio {
-    private int idCombate;
+/*
+ * El combate es una extension de desafio, en el cual nos enfrentamos a un enemigo
+ */
+public class Combate {
     private NoJugable enemigo;
 
     public Combate() {
     }
 
-    public Combate(int idDesafio, int idCombate, NoJugable enemigo) {
-        super(idDesafio);
-        this.idCombate = idCombate;
+    
+    /**
+     * Constructor para crear un objeto Combate.
+     *
+     * @param enemigo para seleccionar un enemigo.
+     */
+    public Combate( NoJugable enemigo) {
         this.enemigo = enemigo;
     }
-
-    public int getIdCombate() {
-        return idCombate;
-    }
-
-    public void setIdCombate(int idCombate) {
-        this.idCombate = idCombate;
-    } 
 
     public NoJugable getEnemigo() {
         return enemigo;

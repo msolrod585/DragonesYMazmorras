@@ -3,12 +3,16 @@ package Juego;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 /*
- * 
+ * El tablero es nuestro lugar de juego
  */
 public class Tablero {
+	/*
+	 * Estas variables sirven para el color
+	 */
 	public static final String RESET = "\033[0m";
 	public static final String RED = "\033[0;31m";
 	public static final String GREEN = "\033[0;32m";
@@ -16,19 +20,19 @@ public class Tablero {
 	public static final String BLUE = "\033[0;34m";
 
 	public static void main(String[] args) {
-
+		
 		List<Raza> razasDisponibles = new ArrayList<>();
 
 		Raza raza1 = new Raza("Elfo", 100, 30, "Élfico", true, "Mediano");
-		Raza raza2 =new Raza("Enano", 150, 20, "Enánico", false, "Pequeño");
+		Raza raza2 = new Raza("Enano", 150, 20, "Enánico", false, "Pequeño");
 		Raza raza3 = (new Raza("Humano", 80, 40, "Común", false, "Mediano"));
-		Raza raza4 =(new Raza("Orco", 60, 35, "Orco", false, "Grande"));
-		Raza raza5 =(new Raza("Hada", 200, 25, "Feérico", true, "Pequeño"));
-		Raza raza6 =(new Raza("Gnomo", 120, 20, "Gnómico", false, "Pequeño"));
-		Raza raza7 =(new Raza("Troll", 40, 25, "Trol", false, "Grande"));
-		Raza raza8 =(new Raza("Dragón", 1000, 50, "Dragónico", true, "Enorme"));
-		Raza raza9 =(new Raza("Naga", 300, 40, "Nagático", true, "Grande"));
-		Raza raza10 =(new Raza("Elfo Oscuro", 120, 35, "Élfico Oscuro", true, "Mediano"));
+		Raza raza4 = (new Raza("Orco", 60, 35, "Orco", false, "Grande"));
+		Raza raza5 = (new Raza("Hada", 200, 25, "Feérico", true, "Pequeño"));
+		Raza raza6 = (new Raza("Gnomo", 120, 20, "Gnómico", false, "Pequeño"));
+		Raza raza7 = (new Raza("Troll", 40, 25, "Trol", false, "Grande"));
+		Raza raza8 = (new Raza("Dragón", 1000, 50, "Dragónico", true, "Enorme"));
+		Raza raza9 = (new Raza("Naga", 300, 40, "Nagático", true, "Grande"));
+		Raza raza10 = (new Raza("Elfo Oscuro", 120, 35, "Élfico Oscuro", true, "Mediano"));
 
 		List<Armas> armas = new ArrayList<>();
 
@@ -67,61 +71,36 @@ public class Tablero {
 
 		List<Jugable> personajesJugables = new ArrayList<>();
 
-        Suministro suministro1 = new Suministro("Pan", 5, "Hierbas");
-        Suministro suministro2 = new Suministro("Fruta", 3, "Piedras");
-        Suministro suministro3 = new Suministro("Carne", 7, "Hongos");
-        Suministro suministro4 = new Suministro("Pescado", 4, "Minerales");
-        Suministro suministro5 = new Suministro("Vegetales", 6, "Raíces");
+		List<NoJugable> enemigos = new ArrayList<>();
+		enemigos.add(new NoJugable("Orco Guerrero", 8, raza1, arma1, new Atributo(), false, "Fuego"));
+		enemigos.add(new NoJugable("Elfo Arquero", 9, raza2, arma2, new Atributo(), false, "Agua"));
+		enemigos.add(new NoJugable("Goblin Ladrón", 7, raza3, arma3, new Atributo(), false, "Tierra"));
+		enemigos.add(new NoJugable("Enano Guerrero", 10, raza4, arma4, new Atributo(), true, "Roca"));
+		enemigos.add(new NoJugable("Trol Berserker", 12, raza5, arma5, new Atributo(), true, "Acido"));
+		enemigos.add(new NoJugable("Hombre Bestia Salvaje", 15, raza6, arma6, new Atributo(), true, "Rayos"));
+		enemigos.add(new NoJugable("Gnomo Ingeniero", 10, raza7, arma7, new Atributo(), false, "Magia"));
+		enemigos.add(new NoJugable("No Muerto Caballero", 11, raza8, arma8, new Atributo(), true, "Ninguna"));
+		enemigos.add(new NoJugable("Dragón Anciano", 20, raza9, arma9, new Atributo(), true, "Fuego"));
+		enemigos.add(new NoJugable("Ogro Jefe", 14, raza10, arma10, new Atributo(), true, "Hierro"));
 
-        List<Equipamiento> equiposDisponibles = new ArrayList<Equipamiento>();
-       
-        Equipamiento equipamiento1 = new Equipamiento("Mochila", 2, suministro1);
-        Equipamiento equipamiento2 = new Equipamiento("Caja de herramientas", 8, suministro2);
-        Equipamiento equipamiento3 = new Equipamiento("Botiquín", 4, suministro3);
-        Equipamiento equipamiento4 = new Equipamiento("Mapa", 1, suministro4);
-        Equipamiento equipamiento5 = new Equipamiento("Linterna", 3, suministro5);
-        Equipamiento equipamiento6 = new Equipamiento("Martillo", 6, suministro1);
-        Equipamiento equipamiento7 = new Equipamiento("Cuerda", 2, suministro2);
-        Equipamiento equipamiento8 = new Equipamiento("Brujula", 1, suministro3);
-        Equipamiento equipamiento9 = new Equipamiento("Botas", 4, suministro4);
-        Equipamiento equipamiento10 = new Equipamiento("Cuchillo", 2, suministro5);
-        equiposDisponibles.add(equipamiento10);
-        equiposDisponibles.add(equipamiento9);
-        equiposDisponibles.add(equipamiento8);
-        equiposDisponibles.add(equipamiento7);
-        equiposDisponibles.add(equipamiento6);
-        equiposDisponibles.add(equipamiento5);
-        equiposDisponibles.add(equipamiento4);
-        equiposDisponibles.add(equipamiento3);
-        equiposDisponibles.add(equipamiento2);
-        equiposDisponibles.add(equipamiento1);
-        
-        
-        List<NoJugable> enemigos = new ArrayList<>();
-        enemigos.add(new NoJugable("Orco Guerrero", 8, raza1, arma1, new Atributo(), 101, false, "Fuego"));
-        enemigos.add(new NoJugable("Elfo Arquero", 9, raza2, arma2, new Atributo(), 102, false, "Agua"));
-        enemigos.add(new NoJugable("Goblin Ladrón", 7, raza3, arma3, new Atributo(), 103, false, "Tierra"));
-        enemigos.add(new NoJugable("Enano Guerrero", 10, raza4, arma4, new Atributo(), 104, true, "Roca"));
-        enemigos.add(new NoJugable("Trol Berserker", 12, raza5, arma5, new Atributo(), 105, true, "Ácido"));
-        enemigos.add(new NoJugable("Hombre Bestia Salvaje", 15, raza6, arma6, new Atributo(), 106, true, "Rayos"));
-        enemigos.add(new NoJugable("Gnomo Ingeniero", 10, raza7, arma7, new Atributo(), 107, false, "Magia"));
-        enemigos.add(new NoJugable("No Muerto Caballero", 11, raza8, arma8, new Atributo(), 108, true, "Ninguna"));
-        enemigos.add(new NoJugable("Dragón Anciano", 20, raza9, arma9, new Atributo(), 109, true, "Fuego"));
-        enemigos.add(new NoJugable("Ogro Jefe", 14, raza10, arma10, new Atributo(), 110, true, "Hierro"));
-        
-        
 		List<Jugable> Party = new ArrayList<>();
-
+		List<Combate> desafioFacil = new ArrayList<>();
+		List<Combate> desafioMedio = new ArrayList<>();
+		List<Combate> desafioDificil = new ArrayList<>();
+		List<Combate> desafioPesadilla = new ArrayList<>();
 
 		List<Mazmorra> Mazmorras = new ArrayList<>();
-		Mazmorra facil = new Mazmorra(3, "Fácil", 3);
-		Mazmorra medio = new Mazmorra(4, "Medio", 8);
-		Mazmorra dificil = new Mazmorra(5, "Dificil", 12);
-		Mazmorra pesadilla = new Mazmorra(7, "Pesadilla", 20);
+		Mazmorra facil = new Mazmorra(3, "Fácil", desafioFacil, 3);
+		Mazmorra medio = new Mazmorra(4, "Medio", desafioMedio, 8);
+		Mazmorra dificil = new Mazmorra(5, "Dificil", desafioDificil, 12);
+		Mazmorra pesadilla = new Mazmorra(7, "Pesadilla", desafioPesadilla, 20);
 
 		Scanner sc = new Scanner(System.in);
-
+		
 		int option;
+		/*
+		 * Este bucle do-while incia el menú principal donde veremos las primeras opciones a elegir
+		 */
 		do {
 			System.out.println(BLUE + "--------------------------" + RESET);
 			System.out.println(BLUE + "----- Menú Principal -----" + RESET);
@@ -133,18 +112,21 @@ public class Tablero {
 			System.out.print(YELLOW + "Seleccione una opción: " + RESET);
 
 			option = sc.nextInt();
+			/*
+			 * Es este switch tenemos la llamada a las funciones dependiendo de las opciones seleccionadas
+			 */
 			switch (option) {
 			case 1:
 				System.out.println("Has seleccionado el Apartado Personajes.");
-				menuPersonajes(personajesJugables, razasDisponibles, clasesDisponibles, armas, equiposDisponibles);
-
+				menuPersonajes(personajesJugables, razasDisponibles, clasesDisponibles, armas);
 				break;
 			case 2:
 				System.out.println("Has seleccionado el Apartado Información.");
-				menuInformacion(razasDisponibles,armas,clasesDisponibles);
+				menuInformacion(razasDisponibles, armas, clasesDisponibles, enemigos);
 				break;
 			case 3:
 				System.out.println("Has seleccionado Explora una Mazmorra.");
+				menuMazmorra(Party);
 				break;
 			case 4:
 				System.out.println("Saliendo del menú...");
@@ -158,8 +140,10 @@ public class Tablero {
 
 	}
 
-	private static void menuPersonajes(List<Jugable> jugables, List<Raza> razas, List<Clase> clases, List<Armas> armas,
-			List<Equipamiento> equipo) {
+	/*
+	 * Esta funcion se le pasan como parametros los arrays de datos que utilizaremos
+	 */
+	private static void menuPersonajes(List<Jugable> party, List<Raza> razas, List<Clase> clases, List<Armas> armas) {
 		Scanner sc = new Scanner(System.in);
 		int option;
 		do {
@@ -169,16 +153,16 @@ public class Tablero {
 
 			switch (option) {
 			case 1:
-				crearPersonaje(jugables, razas, clases, armas, equipo);
+				crearPersonaje(party, razas, clases, armas);
 				break;
 			case 2:
-				System.out.println(jugables.toString());
+				System.out.println(party.toString());
 				break;
 			case 3:
-				modificarPersonaje(jugables, razas, clases, armas, equipo);
+				modificarPersonaje(party, razas, clases, armas);
 				break;
 			case 4:
-				borrarPersonaje(jugables);
+				borrarPersonaje(party);
 				break;
 			case 5:
 				System.out.println("Volviendo al menú principal...");
@@ -189,6 +173,9 @@ public class Tablero {
 		} while (option != 5);
 	}
 
+	/*
+	 * Esta funcionlo que hace es printear el menu de personaje
+	 */
 	private static void printPersonajesMenu() {
 		System.out.println("\n----- Menú de Personajes -----");
 		System.out.println("1. Crear Personaje");
@@ -199,8 +186,10 @@ public class Tablero {
 		System.out.print("Seleccione una opción: ");
 	}
 
-	public static void crearPersonaje(List<Jugable> jugables, List<Raza> razas, List<Clase> clases, List<Armas> armas,
-			List<Equipamiento> equipo) {
+	/*
+	 * Esta funcion nos crea un personaje
+	 */
+	public static void crearPersonaje(List<Jugable> jugables, List<Raza> razas, List<Clase> clases, List<Armas> armas) {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Nombre: ");
 		String nombre = sc.nextLine();
@@ -219,80 +208,79 @@ public class Tablero {
 		String clase = sc.nextLine();
 		Clase claseElegida = clases.stream().filter(c -> c.getNombre().equals(clase)).findFirst().orElse(null);
 		System.out.print("Equipamiento: ");
-		String equipamiento = sc.nextLine();
-		Equipamiento equipoElegido = equipo.stream().filter(e -> e.getNombre().equals(equipamiento)).findFirst()
-				.orElse(null);
 		System.out.print("Oro: ");
 		int oro = sc.nextInt();
 		sc.nextLine();
 		Atributo atributos = new Atributo();
-		Jugable personaje = new Jugable(nombre, nivel, razaElegida, armaElegida, atributos, nombreJugador, claseElegida,
-				equipoElegido, oro);
+		Jugable personaje = new Jugable(nombre, nivel, razaElegida, armaElegida, atributos, nombreJugador, claseElegida, oro);
 		jugables.add(personaje);
 		System.out.println("Personaje creado exitosamente.");
 	}
 	
 	
-	public static void modificarPersonaje(List<Jugable> jugables, List<Raza> razas, List<Clase> clases, List<Armas> armas,
-            List<Equipamiento> equipo) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Ingrese el nombre del personaje a modificar: ");
-        String nombre = sc.nextLine();
-        System.out.print("Ingrese el nombre del jugador del personaje a modificar: ");
-        String nombreJugador = sc.nextLine();
+	/*
+	 * Esta funcion nos permite modificar un personaje
+	 */
 
-        Jugable personajeAModificar = null;
-        for (Jugable personaje : jugables) {
-            if (personaje.getJugador().equals(nombreJugador) && personaje.getNombre().equals(nombre)) {
-                personajeAModificar = personaje;
-                break;
-            }
-        }
+	public static void modificarPersonaje(List<Jugable> party, List<Raza> razas, List<Clase> clases,
+			List<Armas> armas) {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Ingrese el nombre del personaje a modificar: ");
+		String nombre = sc.nextLine();
+		System.out.print("Ingrese el nombre del jugador del personaje a modificar: ");
+		String nombreJugador = sc.nextLine();
+		Jugable personajeAModificar = null;
+		for (Jugable personaje : party) {
+			if (personaje.getJugador().equals(nombreJugador) && personaje.getNombre().equals(nombre)) {
+				personajeAModificar = personaje;
+				break;
+			}
+		}
 
-        if (personajeAModificar != null) {
-            System.out.println("Personaje encontrado: " + personajeAModificar);
-            System.out.println("Ingrese los nuevos valores:");
-            System.out.print("Nombre: ");
-            String nuevoNombre = sc.nextLine();
-            if (!nuevoNombre.isEmpty()) {
-                personajeAModificar.setNombre(nuevoNombre);
-            }
-            System.out.print("Nivel: ");
-            String nuevoNivel = sc.nextLine();
-            if (!nuevoNivel.isEmpty()) {
-                personajeAModificar.setNivel(Integer.parseInt(nuevoNivel));
-            }
-            System.out.print("Clase: ");
-            String nuevaClase = sc.nextLine();
-            if (!nuevaClase.isEmpty()) {
-                personajeAModificar.setNivel(Integer.parseInt(nuevoNivel));
-            }
-            System.out.print("Raza: ");
-            String nuevaRaza = sc.nextLine();
-            if (!nuevaRaza.isEmpty()) {
-                personajeAModificar.setNivel(Integer.parseInt(nuevoNivel));
-            }
-            System.out.print("Arma: ");
-            String nuevaArma = sc.nextLine();
-            if (!nuevoNivel.isEmpty()) {
-                personajeAModificar.setNivel(Integer.parseInt(nuevoNivel));
-            }
-            System.out.print("Equipo: ");
-            String nuevoEquipo = sc.nextLine();
-            if (!nuevoNivel.isEmpty()) {
-                personajeAModificar.setNivel(Integer.parseInt(nuevoNivel));
-            }
-           
-            System.out.println("Personaje modificado exitosamente.");
-        } else {
-            System.out.println("No se encontró ningún personaje con los datos proporcionados.");
-        }
-    }
-	
-	
+		if (personajeAModificar != null) {
+			System.out.println("Personaje encontrado: " + personajeAModificar);
+			System.out.println("Ingrese los nuevos valores:");
+			System.out.print("Nombre: ");
+			String nuevoNombre = sc.nextLine();
+			if (!nuevoNombre.isEmpty()) {
+				personajeAModificar.setNombre(nuevoNombre);
+			}
+			System.out.print("Nivel: ");
+			String nuevoNivel = sc.nextLine();
+			if (!nuevoNivel.isEmpty()) {
+				personajeAModificar.setNivel(Integer.parseInt(nuevoNivel));
+			}
+			System.out.print("Clase: ");
+			String nuevaClase = sc.nextLine();
+			if (!nuevaClase.isEmpty()) {
+				personajeAModificar.setNivel(Integer.parseInt(nuevoNivel));
+			}
+			System.out.print("Raza: ");
+			String nuevaRaza = sc.nextLine();
+			if (!nuevaRaza.isEmpty()) {
+				personajeAModificar.setNivel(Integer.parseInt(nuevoNivel));
+			}
+			System.out.print("Arma: ");
+			String nuevaArma = sc.nextLine();
+			if (!nuevoNivel.isEmpty()) {
+				personajeAModificar.setNivel(Integer.parseInt(nuevoNivel));
+			}
+			System.out.print("Equipo: ");
+			String nuevoEquipo = sc.nextLine();
+			if (!nuevoNivel.isEmpty()) {
+				personajeAModificar.setNivel(Integer.parseInt(nuevoNivel));
+			}
+			System.out.println("Personaje modificado exitosamente.");
+		} else {
+			System.out.println("No se encontró ningún personaje con los datos proporcionados.");
+		}
+	}
 
-
-	private static void menuInformacion(List<Raza> razas, List<Armas> armas, List<Equipamiento> equipos, List<Clase> clases, List<NoJugable> enemigos) {
+	/*
+	 * Esta funcion invoca las funciones y el menu de informacion
+	 */
+	private static void menuInformacion(List<Raza> razas, List<Armas> armas,
+			List<Clase> clases, List<NoJugable> enemigos) {
 		Scanner sc = new Scanner(System.in);
 		int option;
 		do {
@@ -311,95 +299,185 @@ public class Tablero {
 				System.out.println(armas.toString());
 				break;
 			case 4:
-				System.out.println(equipos.toString());
-				break;
-			case 5:
 				System.out.println(enemigos.toString());
 				break;
-			case 6:
+			case 5:
 				System.out.println("Volviendo al menú principal...");
 				break;
 			default:
 				System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
 			}
-		} while (option != 6);
+		} while (option != 5);
 	}
 
+	/*
+	 * Esta funcion imprime el menu de informacion
+	 */
 	private static void printInformacionMenu() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("\n----- Menú de Información -----");
 		System.out.println("1. Ver Razas");
 		System.out.println("2. Ver Clases");
 		System.out.println("3. Ver Armas");
-		System.out.println("4. Ver Equipamientos");
-		System.out.println("5. Ver Enemigos");
-		System.out.println("6. Volver al Menú Principal");
+		System.out.println("4. Ver Enemigos");
+		System.out.println("5. Volver al Menú Principal");
 		System.out.print("Seleccione una opción: ");
 	}
-
-	 public static void borrarPersonaje(List<Jugable> jugables) {
-	        Scanner sc = new Scanner(System.in);
-	        System.out.print("Ingrese el nombre del personaje a borrar: ");
-	        String nombre = sc.nextLine();
-	        System.out.print("Ingrese el nombre del jugador del personaje a borrar: ");
-	        String nombreJugador = sc.nextLine();
-
-	        Jugable personajeABorrar = null;
-	        for (Jugable personaje : jugables) {
-	            if (personaje.getJugador().equals(nombreJugador) && personaje.getNombre().equals(nombre)) {
-	                personajeABorrar = personaje;
-	                break;
-	            }
-	        }
-
-	        if (personajeABorrar != null) {
-	            jugables.remove(personajeABorrar);
-	            System.out.println("El personaje '" + personajeABorrar.getNombre() + "' borrado exitosamente.");
-	        } else {
-	            System.out.println("No se encontró ningún personaje con los datos proporcionados.");
-	        }
-	    }
-
-	
-
-
-
-
-
-
-
-
 	
 	
+	/*
+	 * Esta funcion nos sirve para borrar un personaje
+	 */
+
+	public static void borrarPersonaje(List<Jugable> jugables) {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Ingrese el nombre del personaje a borrar: ");
+		String nombre = sc.nextLine();
+		System.out.print("Ingrese el nombre del jugador del personaje a borrar: ");
+		String nombreJugador = sc.nextLine();
+
+		Jugable personajeABorrar = null;
+		for (Jugable personaje : jugables) {
+			if (personaje.getJugador().equals(nombreJugador) && personaje.getNombre().equals(nombre)) {
+				personajeABorrar = personaje;
+				break;
+			}
+		}
+
+		if (personajeABorrar != null) {
+			jugables.remove(personajeABorrar);
+			System.out.println("El personaje '" + personajeABorrar.getNombre() + "' borrado exitosamente.");
+		} else {
+			System.out.println("No se encontró ningún personaje con los datos proporcionados.");
+		}
+	}
+
+	/*
+	 * Esta funcion imprime el menu de las mazmorras
+	 */
 	private static void printMazmorraMenu() {
-        System.out.println("\n----- Menú de Mazmorra -----");
-        System.out.println("1. Fácil (Nivel mínimo: 3)");
-        System.out.println("2. Media (Nivel mínimo: 8)");
-        System.out.println("3. Difícil (Nivel mínimo: 12)");
-        System.out.println("4. Experto (Nivel mínimo: 20)");
-        System.out.println("5. Volver al Menú Principal");
-        System.out.print("Seleccione una opción: ");
+
+		System.out.println("\n----- Menú de Mazmorra -----");
+		System.out.println("1. Fácil (Nivel mínimo: 3)");
+		System.out.println("2. Media (Nivel mínimo: 8)");
+		System.out.println("3. Difícil (Nivel mínimo: 12)");
+		System.out.println("4. Experto (Nivel mínimo: 20)");
+		System.out.println("5. Volver al Menú Principal");
+		System.out.print("Seleccione una opción: ");
+	}
+	/*
+	 * Esta funcion booleana nos comprueba las condiciones para poder entrar a la mazmorra
+	 */
+	public static Boolean nivelSuficiente(List<Jugable> party, String dificultad) {
+		Integer minNivel = party.stream().min(Comparator.comparing(Jugable::getNivel)).get().getNivel();
+		Boolean nivelSuficiente = false;
+		if (dificultad == "Facil" && minNivel >= 3) {
+			nivelSuficiente = true;
+		} else if (dificultad == "Media" && minNivel >= 8) {
+			nivelSuficiente = true;
+		} else if (dificultad == "Dificil" && minNivel >= 12) {
+			nivelSuficiente = true;
+		} else if (dificultad == "Pesadilla" && minNivel >= 20) {
+			nivelSuficiente = true;
+		}
+		return nivelSuficiente;
+	}
+
+	
+	/*
+	 * Esta funcion nos plantea las mazmorras y opciones de dificultad
+	 */
+	private static void menuMazmorra(List<Jugable> party) {
+		Scanner sc = new Scanner(System.in);
+		int option;
+		do {
+			printMazmorraMenu();
+			option = sc.nextInt();
+			sc.nextLine();
+
+			switch (option) {
+			case 1:
+				if (nivelSuficiente(party, "Facil") == true) {
+					System.out.println("Nuestra party de aventureros se aproximan a la mazmorra");
+					System.out.println("Una vez dentro, se encuentran una puerta con una cerradura bastante extraña");
+					System.out.println("¿Quereís hacer una tirada para buscar la llave?");
+					 char respuesta = sc.next().charAt(0);
+				        if (respuesta == 'S' || respuesta == 's') {
+				            System.out.println("Haciendo una tirada para buscar la llave...");
+				            int tirada = tirada();
+				            if(tirada == 1) {
+				            	System.out.println(tirada);
+				            	System.out.println("Tienes demasiada mala suerte y te tropiezas");
+				            }else if(tirada > 2 && tirada < 10){
+				            	System.out.println(tirada);
+				            	System.out.println("No encuestras la llave pero te llevas una moneda de consolacion");
+				            }else if(tirada > 11 && tirada < 19){
+				            	System.out.println("Encontrais la llave y abrís la puerta exitosamente, salís corriendo pq hay un zombie");
+				            }else if(tirada == 20) {
+				            	System.out.println("Abrís la puerta y os haceis millonarios");
+				            }
+				        } else if (respuesta == 'N' || respuesta == 'n') {
+				            System.out.println("Pues os quedais sin tesoro.");
+				        } else {
+				            System.out.println("Por favor, responde con 'S' o 'N'.");
+		
+				        }
+				} else {
+					System.out.println("El nivel no es suficiente para esta mazmorra");
+				}
+				break;
+			case 2:
+				if (nivelSuficiente(party, "Medio") == true) {
+					System.out.println("Mazmorra en desarrollo...");
+				} else {
+					System.out.println("El nivel no es suficiente para esta mazmorra");
+				}
+				break;
+			case 3:
+				if (nivelSuficiente(party, "Dificil") == true) {
+					System.out.println("Mazmorra en desarrollo...");
+				} else {
+					System.out.println("El nivel no es suficiente para esta mazmorra");
+				}
+				break;
+			case 4:
+				if (nivelSuficiente(party, "Pesadilla")) {
+					System.out.println("Tras arduas batallas y mucho trabajo, llegais a la sala final...");
+					System.out.println("Sobre la pila de oro, rubies y artefactos de gran valor, se encuentra un dragon anciano, protegiendo su botín");
+					System.out.println("El dragón abre sus fauces y deja escapar una llamarada capaz de destruit una ciudad entera");
+					System.out.println("¿Haceis una tirada para esquivarlo?");
+					char respuesta = sc.next().charAt(0);
+			        if (respuesta == 'S' || respuesta == 's') {
+			            System.out.println("Haciendo una tirada para buscar la llave...");
+			            int tirada = tirada();
+			            if(tirada == 20) {
+			            	System.out.println(tirada);
+			            	System.out.println("Empuñando vuestro arma, haceis un triple mortal, con tirabuzon y musica epica de fondo(no sabeis de donde viene), aterrizais sobre el dragon y le cortais la cabeza.");
+			            	System.out.println("Os quedais con todo su tesoro y el pueblo os proclama reyes y protectores del reino");
+			            }else {
+			            	System.out.println("Quedais calzinados por las llamas...");
+			            }
+			        } else if (respuesta == 'N' || respuesta == 'n') {
+			            System.out.println("Pues os quedais sin tesoro.");
+			        } else {
+			            System.out.println("Por favor, responde con 'S' o 'N'.");
+			        }
+				} else {
+					System.out.println("El nivel no es suficiente para esta mazmorra");
+				}
+				break;
+			case 5:
+				System.out.println("Volviendo al menú principal...");
+				break;
+			default:
+				System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
+			}
+		} while (option != 5);
+	}
+
+	public static int tirada() {
+        Random random = new Random();
+        int dado = random.nextInt(21);
+        return dado;
     }
-
-
-    String dificultad;
-
-    List<Jugable> party = new ArrayList<Jugable>();
-
-    public Boolean nivelSificiente(List<Jugable> party, String dificultad) {
-        Integer minNivel = party.stream().min(Comparator.comparing(Jugable::getNivel)).get().getNivel();
-        Boolean nivelSuficiente = false;
-        if (dificultad == "Fácil" && minNivel >= 3) {
-            nivelSuficiente = true;
-        } else if (dificultad == "Media" && minNivel >= 8) {
-            nivelSuficiente = true;
-        } else if (dificultad == "Difícil" && minNivel >= 12) {
-            nivelSuficiente = true;
-        } else if (dificultad == "Experto" && minNivel >= 20) {
-            nivelSuficiente = true;
-        }
-        return nivelSuficiente;
-    }
-
-
 }
