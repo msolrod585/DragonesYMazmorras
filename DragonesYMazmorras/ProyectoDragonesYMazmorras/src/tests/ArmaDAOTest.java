@@ -16,8 +16,7 @@ public class ArmaDAOTest {
         try {
             List<Armas> armas = ArmaDAO.leerArmas();
             Assertions.assertNotNull(armas);
-            Assertions.assertFalse(armas.isEmpty());
-            // Add more assertions to validate the retrieved data
+            Assertions.assertFalse(armas.isEmpty()); 
         } catch (SQLException | ClassNotFoundException e) {
             Assertions.fail("Exception occurred: " + e.getMessage());
         }
@@ -25,11 +24,10 @@ public class ArmaDAOTest {
 
     @Test
     public void testLeerUnaArma() {
-        int idRaza = 1; // Provide a valid idRaza
+        int idRaza = 1;
         try {
             Armas arma = ArmaDAO.leerUnaArma(idRaza);
             Assertions.assertNotNull(arma);
-            // Add more assertions to validate the retrieved data
         } catch (SQLException | ClassNotFoundException e) {
             Assertions.fail("Exception occurred: " + e.getMessage());
         }
