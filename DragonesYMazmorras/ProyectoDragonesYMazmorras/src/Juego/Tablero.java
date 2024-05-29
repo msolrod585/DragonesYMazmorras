@@ -74,15 +74,12 @@ public class Tablero {
 			 */
 			switch (option) {
 			case 1:
-				System.out.println("Has seleccionado el Apartado Personajes.");
 				menuPersonajes(Party, razasDisponibles, clasesDisponibles, armas);
 				break;
 			case 2:
-				System.out.println("Has seleccionado el Apartado Información.");
 				menuInformacion(razasDisponibles, armas, clasesDisponibles, enemigos);
 				break;
 			case 3:
-				System.out.println("Has seleccionado Explora una Mazmorra.");
 				menuMazmorra(Party);
 				break;
 			case 4:
