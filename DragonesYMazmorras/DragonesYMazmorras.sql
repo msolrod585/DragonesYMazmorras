@@ -95,7 +95,13 @@ VALUES (1, 'Elfo', 100, 30, 'Élfico', TRUE, 'Mediano'),
 
 INSERT INTO Clases (idClase, nombre, rol, claseMagica)
 VALUES (1, 'Guerrero', 'Tanque', FALSE),
-       (2, 'Mago', 'DPS', TRUE);
+       (2, 'Mago', 'DPS', TRUE),
+       (3, 'Hechicerp', 'DPS', TRUE),
+       (4, 'Monje', 'DPS', FALSE),
+       (5, 'Brujo', 'DPS', TRUE),
+       (6, 'Paladin', 'Support', TRUE),
+       (7, 'Clerigo', 'Support', TRUE);
+       
 
 INSERT INTO Atributos (idSetAtributos, fuerza, destreza, constitucion, inteligencia, sabiduria, carisma) VALUES 
 (1,12, 14, 10, 8, 10, 16),

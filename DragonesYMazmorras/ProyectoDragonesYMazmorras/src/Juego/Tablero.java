@@ -339,97 +339,94 @@ public class Tablero {
 	/*
 	 * Esta funcion nos plantea las mazmorras y opciones de dificultad
 	 */
-	private static void menuMazmorra(List<Jugable> party) {
-		Scanner sc = new Scanner(System.in);
-		int option;
-		do {
-			printMazmorraMenu();
-			option = sc.nextInt();
-			sc.nextLine();
+	 private static void menuMazmorra(List<Jugable> party) {
+	        Scanner sc = new Scanner(System.in);
+	        int option;
+	        do {
+	            printMazmorraMenu();
+	            option = sc.nextInt();
+	            sc.nextLine();
 
-			switch (option) {
-			case 1:
-				if (nivelSuficiente(party, "Facil") == true) {
-					System.out.println("Nuestra party de aventureros se aproximan a la mazmorra");
-					System.out.println("Una vez dentro, se encuentran una puerta con una cerradura bastante extraña");
-					System.out.println("¿Quereís hacer una tirada para buscar la llave?");
-					 char respuesta = sc.next().charAt(0);
-				        if (respuesta == 'S' || respuesta == 's') {
-				            System.out.println("Haciendo una tirada para buscar la llave...");
-				            int tirada = tirada();
-				            if(tirada == 1) {
-				            	System.out.println(tirada);
-				            	System.out.println("Tienes demasiada mala suerte y te tropiezas");
-				            }else if(tirada > 2 && tirada < 10){
-				            	System.out.println(tirada);
-				            	System.out.println("No encuestras la llave pero te llevas una moneda de consolacion");
-				            }else if(tirada > 11 && tirada < 19){
-				            	System.out.println("Encontrais la llave y abrís la puerta exitosamente, salís corriendo pq hay un zombie");
-				            }else if(tirada == 20) {
-				            	System.out.println("Abrís la puerta y os haceis millonarios");
-				            }
-				        } else if (respuesta == 'N' || respuesta == 'n') {
-				            System.out.println("Pues os quedais sin tesoro.");
-				        } else {
-				            System.out.println("Por favor, responde con 'S' o 'N'.");
-		
-				        }
-				} else {
-					System.out.println("El nivel no es suficiente para esta mazmorra");
-				}
-				break;
-			case 2:
-				if (nivelSuficiente(party, "Medio") == true) {
-					System.out.println("Mazmorra en desarrollo...");
-				} else {
-					System.out.println("El nivel no es suficiente para esta mazmorra");
-				}
-				break;
-			case 3:
-				if (nivelSuficiente(party, "Dificil") == true) {
-					System.out.println("Mazmorra en desarrollo...");
-				} else {
-					System.out.println("El nivel no es suficiente para esta mazmorra");
-				}
-				break;
-			case 4:
-				if (nivelSuficiente(party, "Pesadilla")) {
-					System.out.println("Tras arduas batallas y mucho trabajo, llegais a la sala final...");
-					System.out.println("Sobre la pila de oro, rubies y artefactos de gran valor, se encuentra un dragon anciano, protegiendo su botín");
-					System.out.println("El dragón abre sus fauces y deja escapar una llamarada capaz de destruit una ciudad entera");
-					System.out.println("¿Haceis una tirada para esquivarlo?");
-					char respuesta = sc.next().charAt(0);
-			        if (respuesta == 'S' || respuesta == 's') {
-			            System.out.println("Haciendo una tirada para buscar la llave...");
-			            int tirada = tirada();
-			            if(tirada == 20) {
-			            	System.out.println(tirada);
-			            	System.out.println("Empuñando vuestro arma, haceis un triple mortal, con tirabuzon y musica epica de fondo(no sabeis de donde viene), aterrizais sobre el dragon y le cortais la cabeza.");
-			            	System.out.println("Os quedais con todo su tesoro y el pueblo os proclama reyes y protectores del reino");
-			            }else {
-			            	System.out.println("Quedais calzinados por las llamas...");
-			            }
-			        } else if (respuesta == 'N' || respuesta == 'n') {
-			            System.out.println("Pues os quedais sin tesoro.");
-			        } else {
-			            System.out.println("Por favor, responde con 'S' o 'N'.");
-			        }
-				} else {
-					System.out.println("El nivel no es suficiente para esta mazmorra");
-				}
-				break;
-			case 5:
-				System.out.println("Volviendo al menú principal...");
-				break;
-			default:
-				System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
-			}
-		} while (option != 5);
-	}
+	            switch (option) {
+	                case 1:
+	                    if (nivelSuficiente(party, "Facil")) {
+	                        System.out.println("Nuestra party de aventureros se aproximan a la mazmorra");
+	                        System.out.println("Una vez dentro, se encuentran una puerta con una cerradura bastante extraña");
+	                        System.out.println("¿Quereís hacer una tirada para buscar la llave?");
+	                        char respuesta = sc.next().charAt(0);
+	                        if (respuesta == 'S' || respuesta == 's') {
+	                            System.out.println("Haciendo una tirada para buscar la llave...");
+	                            int tirada = tirada();
+	                            System.out.println("Resultado de la tirada: " + tirada);
+	                            if (tirada == 1) {
+	                                System.out.println("Tienes demasiada mala suerte y te tropiezas");
+	                            } else if (tirada > 2 && tirada < 10) {
+	                                System.out.println("No encuentras la llave pero te llevas una moneda de consolación");
+	                            } else if (tirada > 11 && tirada < 19) {
+	                                System.out.println("Encontráis la llave y abrís la puerta exitosamente, salís corriendo porque hay un zombie");
+	                            } else if (tirada == 20) {
+	                                System.out.println("Abrís la puerta y os hacéis millonarios");
+	                            }
+	                        } else if (respuesta == 'N' || respuesta == 'n') {
+	                            System.out.println("Pues os quedáis sin tesoro.");
+	                        } else {
+	                            System.out.println("Por favor, responde con 'S' o 'N'.");
+	                        }
+	                    } else {
+	                        System.out.println("El nivel no es suficiente para esta mazmorra");
+	                    }
+	                    break;
+	                case 2:
+	                    if (nivelSuficiente(party, "Medio")) {
+	                        System.out.println("Mazmorra en desarrollo...");
+	                    } else {
+	                        System.out.println("El nivel no es suficiente para esta mazmorra");
+	                    }
+	                    break;
+	                case 3:
+	                    if (nivelSuficiente(party, "Dificil")) {
+	                        System.out.println("Mazmorra en desarrollo...");
+	                    } else {
+	                        System.out.println("El nivel no es suficiente para esta mazmorra");
+	                    }
+	                    break;
+	                case 4:
+	                    if (nivelSuficiente(party, "Pesadilla")) {
+	                        System.out.println("Tras arduas batallas y mucho trabajo, llegáis a la sala final...");
+	                        System.out.println("Sobre la pila de oro, rubíes y artefactos de gran valor, se encuentra un dragón anciano, protegiendo su botín");
+	                        System.out.println("El dragón abre sus fauces y deja escapar una llamarada capaz de destruir una ciudad entera");
+	                        System.out.println("¿Hacéis una tirada para esquivarlo?");
+	                        char respuesta = sc.next().charAt(0);
+	                        if (respuesta == 'S' || respuesta == 's') {
+	                            System.out.println("Haciendo una tirada para esquivar la llamarada...");
+	                            int tirada = tirada();
+	                            System.out.println("Resultado de la tirada: " + tirada);
+	                            if (tirada == 20) {
+	                                System.out.println("Empuñando vuestro arma, hacéis un triple mortal, con tirabuzón y música épica de fondo (no sabéis de dónde viene), aterrizáis sobre el dragón y le cortáis la cabeza.");
+	                                System.out.println("Os quedáis con todo su tesoro y el pueblo os proclama reyes y protectores del reino");
+	                            } else {
+	                                System.out.println("Quedáis calcinados por las llamas...");
+	                            }
+	                        } else if (respuesta == 'N' || respuesta == 'n') {
+	                            System.out.println("Pues os quedáis sin tesoro.");
+	                        } else {
+	                            System.out.println("Por favor, responde con 'S' o 'N'.");
+	                        }
+	                    } else {
+	                        System.out.println("El nivel no es suficiente para esta mazmorra");
+	                    }
+	                    break;
+	                case 5:
+	                    System.out.println("Volviendo al menú principal...");
+	                    break;
+	                default:
+	                    System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
+	            }
+	        } while (option != 5);
+	    }
 
-	public static int tirada() {
-        Random random = new Random();
-        int dado = random.nextInt(20) + 1;
-        return dado;
-    }
+	    public static int tirada() {
+	        Random random = new Random();
+	        return random.nextInt(20) + 1;
+	    }
 }
