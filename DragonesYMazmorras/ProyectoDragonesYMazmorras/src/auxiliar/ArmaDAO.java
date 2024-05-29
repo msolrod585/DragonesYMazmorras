@@ -17,6 +17,7 @@ public class ArmaDAO {
             ResultSet rs = ps.executeQuery(query);
             while (rs.next()) {
                 Armas arma = new Armas();
+                arma.setId(rs.getInt("idArma"));
                 arma.setNombre(rs.getString("nombre"));
                 arma.setPeso(rs.getInt("peso"));
                 arma.setTamanyo(rs.getInt("tamaño"));
@@ -35,12 +36,13 @@ public class ArmaDAO {
         List<Armas> armas = new ArrayList<>();
         try {
         	Connection con = DatabaseConnection.getConnection();
-            String query = "SELECT * FROM armas WHERE idRaza = ?";
+            String query = "SELECT * FROM armas WHERE idArma = ?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, idRaza);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Armas arma = new Armas();
+                arma.setId(rs.getInt("idArma"));
                 arma.setNombre(rs.getString("nombre"));
                 arma.setPeso(rs.getInt("peso"));
                 arma.setTamanyo(rs.getInt("tamaño"));

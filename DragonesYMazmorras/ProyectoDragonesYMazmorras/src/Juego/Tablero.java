@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import auxiliar.ArmaDAO;
 import auxiliar.ClaseDAO;
+import auxiliar.JugableDAO;
 import auxiliar.MazmorraDAO;
 import auxiliar.NoJugableDAO;
 import auxiliar.RazaDAO;
@@ -39,17 +40,18 @@ public class Tablero {
 		List<NoJugable> enemigos = NoJugableDAO.leerNoJugables();
 
 		List<Jugable> Party = new ArrayList<>();
+		
+		
 		List<Combate> desafioFacil = new ArrayList<>();
 		List<Combate> desafioMedio = new ArrayList<>();
 		List<Combate> desafioDificil = new ArrayList<>();
 		List<Combate> desafioPesadilla = new ArrayList<>();
 
 		List<Mazmorra> Mazmorras = MazmorraDAO.leerMazmorras();
-		Mazmorra facil = new Mazmorra(3, "Fácil", desafioFacil);
-		Mazmorra medio = new Mazmorra(4, "Medio", desafioMedio);
-		Mazmorra dificil = new Mazmorra(5, "Dificil", desafioDificil);
-		Mazmorra pesadilla = new Mazmorra(7, "Pesadilla", desafioPesadilla);
-
+		Mazmorra facil = Mazmorras.get(0);
+		Mazmorra medio = Mazmorras.get(1);
+		Mazmorra dificil = Mazmorras.get(2);
+		Mazmorra pesadilla = Mazmorras.get(3);
 		Scanner sc = new Scanner(System.in);
 		
 		int option;
@@ -73,7 +75,7 @@ public class Tablero {
 			switch (option) {
 			case 1:
 				System.out.println("Has seleccionado el Apartado Personajes.");
-				menuPersonajes(personajesJugables, razasDisponibles, clasesDisponibles, armas);
+				menuPersonajes(Party, razasDisponibles, clasesDisponibles, armas);
 				break;
 			case 2:
 				System.out.println("Has seleccionado el Apartado Información.");
@@ -98,7 +100,7 @@ public class Tablero {
 	/*
 	 * Esta funcion se le pasan como parametros los arrays de datos que utilizaremos
 	 */
-	private static void menuPersonajes(List<Jugable> party, List<Raza> razas, List<Clase> clases, List<Armas> armas) {
+	private static void menuPersonajes(List<Jugable> party, List<Raza> razas, List<Clase> clases, List<Armas> armas) throws ClassNotFoundException, SQLException {
 		Scanner sc = new Scanner(System.in);
 		int option;
 		do {
@@ -144,7 +146,7 @@ public class Tablero {
 	/*
 	 * Esta funcion nos crea un personaje
 	 */
-	public static void crearPersonaje(List<Jugable> jugables, List<Raza> razas, List<Clase> clases, List<Armas> armas) {
+	public static void crearPersonaje(List<Jugable> jugables, List<Raza> razas, List<Clase> clases, List<Armas> armas) throws ClassNotFoundException, SQLException {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Nombre: ");
 		String nombre = sc.nextLine();
@@ -162,13 +164,13 @@ public class Tablero {
 		System.out.print("Clase: ");
 		String clase = sc.nextLine();
 		Clase claseElegida = clases.stream().filter(c -> c.getNombre().equals(clase)).findFirst().orElse(null);
-		System.out.print("Equipamiento: ");
 		System.out.print("Oro: ");
 		int oro = sc.nextInt();
 		sc.nextLine();
 		Atributo atributos = new Atributo();
 		Jugable personaje = new Jugable(nombre, nivel, razaElegida, armaElegida, atributos, nombreJugador, claseElegida, oro);
 		jugables.add(personaje);
+		JugableDAO.insertarJugable(personaje);
 		System.out.println("Personaje creado exitosamente.");
 	}
 	
@@ -178,7 +180,7 @@ public class Tablero {
 	 */
 
 	public static void modificarPersonaje(List<Jugable> party, List<Raza> razas, List<Clase> clases,
-			List<Armas> armas) {
+			List<Armas> armas) throws ClassNotFoundException, SQLException {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Ingrese el nombre del personaje a modificar: ");
 		String nombre = sc.nextLine();
@@ -225,6 +227,8 @@ public class Tablero {
 			if (!nuevoNivel.isEmpty()) {
 				personajeAModificar.setNivel(Integer.parseInt(nuevoNivel));
 			}
+			
+			JugableDAO.actualizarJugable(personajeAModificar);
 			System.out.println("Personaje modificado exitosamente.");
 		} else {
 			System.out.println("No se encontró ningún personaje con los datos proporcionados.");
@@ -284,7 +288,7 @@ public class Tablero {
 	 * Esta funcion nos sirve para borrar un personaje
 	 */
 
-	public static void borrarPersonaje(List<Jugable> jugables) {
+	public static void borrarPersonaje(List<Jugable> jugables) throws ClassNotFoundException, SQLException {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Ingrese el nombre del personaje a borrar: ");
 		String nombre = sc.nextLine();
@@ -301,6 +305,7 @@ public class Tablero {
 
 		if (personajeABorrar != null) {
 			jugables.remove(personajeABorrar);
+			JugableDAO.borrarJugable(personajeABorrar);
 			System.out.println("El personaje '" + personajeABorrar.getNombre() + "' borrado exitosamente.");
 		} else {
 			System.out.println("No se encontró ningún personaje con los datos proporcionados.");
@@ -313,7 +318,7 @@ public class Tablero {
 	private static void printMazmorraMenu() {
 
 		System.out.println("\n----- Menú de Mazmorra -----");
-		System.out.println("1. Fácil (Nivel mínimo: 3)");
+		System.out.println("1. Fácil (Nivel mínimo: 1)");
 		System.out.println("2. Media (Nivel mínimo: 8)");
 		System.out.println("3. Difícil (Nivel mínimo: 12)");
 		System.out.println("4. Experto (Nivel mínimo: 20)");
@@ -324,9 +329,10 @@ public class Tablero {
 	 * Esta funcion booleana nos comprueba las condiciones para poder entrar a la mazmorra
 	 */
 	public static Boolean nivelSuficiente(List<Jugable> party, String dificultad) {
-		Integer minNivel = party.stream().min(Comparator.comparing(Jugable::getNivel)).get().getNivel();
+		
+		Integer minNivel = party.stream().mapToInt(j -> j.getNivel()).min().orElse(0);
 		Boolean nivelSuficiente = false;
-		if (dificultad == "Facil" && minNivel >= 3) {
+		if (dificultad == "Facil" && minNivel >= 1) {
 			nivelSuficiente = true;
 		} else if (dificultad == "Media" && minNivel >= 8) {
 			nivelSuficiente = true;

@@ -4,19 +4,20 @@ import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
 import Juego.Atributo;
+import basededatos.DatabaseConnection;
 
 public class AtributosDAO {
     public static Atributo leerAtributos(int idSetAtributos) throws SQLException, ClassNotFoundException {
         List<Atributo> atributos = new ArrayList<>();
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dragonesymazmorras", "root", "Msguez2003");
+        	Connection con = DatabaseConnection.getConnection();
             String query = "SELECT * FROM atributos WHERE idSetAtributos = ?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, idSetAtributos);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Atributo atributo = new Atributo();
+                atributo.setId(rs.getInt("idSetAtributos"));
                 atributo.setFuerza(rs.getInt("fuerza"));
                 atributo.setDestreza(rs.getInt("destreza"));
                 atributo.setConstitucion(rs.getInt("constitucion"));
@@ -31,4 +32,6 @@ public class AtributosDAO {
         }
         return atributos.get(0);
     }
+    
+    
 }

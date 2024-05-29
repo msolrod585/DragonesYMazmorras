@@ -154,74 +154,126 @@ VALUES
 (5,FALSE,'Fuego'),
 (6,TRUE,'Hielo');
 
-INSERT INTO Mazmorras (idMazmorra)
-VALUES (1),
-       (2);
+INSERT INTO Mazmorras (idMazmorra, dificultad, numSalas)
+VALUES (3, "Fácil", 2),
+		(4, "Medio", 3),
+		(5, "Dificil", 6),
+		(7, "Pesadilla", 10);
 
 INSERT INTO Combate (idCombate, enemigo, mazmorra)
-VALUES (1,3, 3),
-       (2,4, 4);
+VALUES(1,3, 3),
+(2, 3, 3),
+(3, 4, 4),
+(4, 4, 4),
+(5, 5, 4),
+(6, 5, 5),
+(7, 5, 5),
+(8, 5, 5),
+(9, 6, 5),
+(10,6, 5),
+(11, 6, 7),
+(12, 6, 7),
+(13, 6, 7),
+(14, 6, 7),
+(15, 5, 7),
+(16, 5, 7),
+(17, 5, 7),
+(18, 3, 7),
+(19, 3, 7),
+(20, 3, 7),
+(21, 3, 7);
        
 
 
        
 -- ----------- -----------------------------------
 
--- Sentencias multitabla 
+-- Consultas
 
-/* Esta consulta selecciona el nombre y nivel de los personajes cuyo nivel es mayor que el nivel promedio de todos los personajes. */
-SELECT nombre, nivel
-FROM Personaje
-WHERE nivel > (SELECT AVG(nivel) FROM Personaje);
+-- Mostrar el nombre y el rol de todos los personajes jugables, junto con el nombre de su jugador y la cantidad de oro que poseen:
 
-/* Esta consulta selecciona el nombre de los personajes y su raza para los personajes con el nivel*/
-SELECT Personaje.nombre, Razas.nombre AS Raza
-FROM Personaje
-JOIN Razas ON Personaje.raza = Razas.idRaza
-WHERE Personaje.nivel = (SELECT MAX(nivel) FROM Personaje);
+SELECT p.nombre AS nombre_personaje, c.nombre AS rol, j.jugador, j.oro 
+FROM Personaje p 
+JOIN Jugable j ON p.token = j.idJugable 
+JOIN Clases c ON j.clase = c.idClase;
 
+-- Recuperar el nombre y la resistencia de todos los enemigos legendarios:
 
-/* Esta consulta cuenta el número de personajes en cada clase y agrupa los resultados por nombre de la clase. */
-
-/* Esta consulta obtiene el nombre y la clase de los personajes que pertenecen a la raza "Elfo".*/
-
-/*Esta consulta cuenta el número de personajes por raza, agrupando los resultados por nombre de la raza.*/
-SELECT Razas.nombre AS Raza, COUNT(Personaje.token) AS NumeroPersonajes
-FROM Personaje 
-JOIN Razas ON Personaje.raza = Razas.idRaza
-GROUP BY Razas.nombre;
+SELECT NoJugable.idNoJugable, Personaje.nombre, NoJugable.resistencia
+FROM NoJugable
+JOIN Personaje ON NoJugable.idNoJugable = Personaje.token
+WHERE legendario = TRUE;
 
 
-/*Esta actualización sube de nivel a los personajes cuyo oro sea superior a 150*/
+
+-- Listar todos los personajes jugables con su nombre, clase y oro disponible
+SELECT p.nombre AS Nombre_Personaje, c.nombre AS Clase, j.oro AS Oro_Disponible
+FROM Personaje p
+JOIN Jugable j ON p.token = j.idJugable
+JOIN Clases c ON j.clase = c.idClase;
+
+-- Obtener el nombre y tamaño de todas las armas con un precio superior a 50
+
+SELECT nombre, tamaño
+FROM Armas
+WHERE precio > 50;
+
+
+-- Listar todos los personajes jugables y sus clases junto con el nombre de sus jugadores:
+SELECT p.nombre AS Nombre_Personaje, c.nombre AS Clase, j.jugador AS Jugador
+FROM Personaje p
+JOIN Jugable j ON p.token = j.idJugable
+JOIN Clases c ON j.clase = c.idClase;
+
+
+-- Actualizar el nombre de un personaje no jugable y aumentar en 5 su nivel
 UPDATE Personaje
-SET nivel = nivel + 1
-WHERE token IN (SELECT idJugable FROM Jugable WHERE oro > 150);
+SET nombre = CONCAT(nombre, ' el Poderoso'), -- Nuevo nombre
+    nivel = nivel + 5 
+WHERE token = 10; 
 
 
-/*Esta actualización aumenta el nivel en 10 a los personaje No Jugables Legendarios*/
-UPDATE Personaje 
-JOIN NoJugable ON Personaje.token = NoJugable.idNoJugable
-SET Personaje.nivel = Personaje.nivel + 10
-WHERE NoJugable.legendario = TRUE;
+-- Actualizar el nombre de un personaje y su nivel incrementando en 1 el nivel actual
+UPDATE Personaje
+SET nombre = CONCAT(nombre, ' II'), 
+    nivel = nivel + 1 
+WHERE token = 4;
 
 
-/*Esta actualización borra los personajes de clase Guerrero*/
-
-
+-- Eliminar todas las referencias de un personaje no jugable en los combates y luego eliminar el personaje no jugable:
+DELETE FROM Combate
+WHERE enemigo IN (SELECT idNoJugable FROM NoJugable WHERE idNoJugable = 6);
+DELETE FROM NoJugable
+WHERE idNoJugable = 6;
 
 -- Vistas
+-- Vista para mostrar nombres de personajes y sus razas:
 
-/*Vista para personajes con sus clases y equipamientos*/
+CREATE VIEW VistaPersonajesRazas AS
+SELECT 
+    Personaje.nombre AS Nombre_Personaje,
+    Razas.nombre AS Raza
+FROM Personaje 
+JOIN Razas ON Personaje.raza = Razas.idRaza;
 
 
 
-/*Esta vista muestra los desafíos y las salas correspondientes en las que se encuentran, junto con la información de la mazmorra a la que pertenecen.
-*/
+-- Vista para mostrar nombres de personajes y sus armas
+
+CREATE VIEW VistaPersonajesArmas AS
+SELECT 
+    Personaje.nombre AS Nombre_Personaje,
+    Armas.nombre AS Arma
+FROM Personaje 
+JOIN Armas ON Personaje.arma = Armas.idArma;
+
 
 
 
 
 -- Funciones/Procedimientos
+
+
 
 /*Procedimiento que actualiza un equipo*/
 
@@ -260,6 +312,37 @@ BEGIN
 END $$
 DELIMITER ;
 
-/**/
+/*Trigger para asegurar que el nivel de un personaje nunca se introduzca como negativo:*/
 
-/**/
+DELIMITER $$
+
+CREATE TRIGGER before_insert_personaje
+BEFORE INSERT ON Personaje
+FOR EACH ROW
+BEGIN
+    IF NEW.nivel < 0 THEN
+        SET NEW.nivel = 0;
+    END IF;
+END $$
+
+DELIMITER ;
+
+
+/*Trigger para actualizar la cantidad de oro de un personaje jugable después de actualizar su nivel en la tabla Personaje*/
+
+DELIMITER $$
+
+CREATE TRIGGER AfterUpdatePersonaje
+AFTER UPDATE ON Personaje
+FOR EACH ROW
+BEGIN
+    DECLARE oroIncremento INT;
+    IF NEW.nivel > OLD.nivel THEN
+        SET oroIncremento = (NEW.nivel - OLD.nivel) * 10;
+        UPDATE Jugable
+        SET oro = oro + oroIncremento
+        WHERE idJugable = NEW.token;
+    END IF;
+END $$
+
+DELIMITER ;

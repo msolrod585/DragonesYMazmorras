@@ -17,6 +17,7 @@ public class ClaseDAO {
             ResultSet rs = ps.executeQuery(query);
             while (rs.next()) {
                 Clase clase = new Clase();
+                clase.setId(rs.getInt("idClase"));
                 clase.setNombre(rs.getString("nombre"));
                 clase.setRol(rs.getString("rol"));
                 clase.setClaseMagica(rs.getBoolean("claseMagica"));
@@ -40,6 +41,7 @@ public class ClaseDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Clase clase = new Clase();
+                clase.setId(rs.getInt("idClase"));
                 clase.setNombre(rs.getString("nombre"));
                 clase.setRol(rs.getString("rol"));
                 clase.setClaseMagica(rs.getBoolean("claseMagica"));

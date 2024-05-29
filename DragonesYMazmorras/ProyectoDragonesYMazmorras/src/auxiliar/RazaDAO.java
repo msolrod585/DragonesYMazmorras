@@ -17,6 +17,7 @@ public class RazaDAO {
             ResultSet rs = ps.executeQuery(query);
             while (rs.next()) {
                 Raza raza = new Raza();
+                raza.setId(rs.getInt("idRaza"));
                 raza.setNombre(rs.getString("nombre"));
                 raza.setEdad(rs.getInt("edad"));
                 raza.setVelocidad(rs.getInt("velocidad"));
@@ -43,6 +44,7 @@ public class RazaDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Raza raza = new Raza();
+                raza.setId(rs.getInt("idRaza"));
                 raza.setNombre(rs.getString("nombre"));
                 raza.setEdad(rs.getInt("edad"));
                 raza.setVelocidad(rs.getInt("velocidad"));

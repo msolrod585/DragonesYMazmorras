@@ -16,7 +16,7 @@ public class NoJugableDAO {
         List<NoJugable> noJugables = new ArrayList<NoJugable>();
         try {
         	Connection con = DatabaseConnection.getConnection();
-            String query = "SELECT * FROM NoJugable";
+            String query = "SELECT * FROM NoJugable LEFT JOIN Personaje ON NoJugable.idNoJugable = Personaje.token";
             Statement ps = con.createStatement();
             ResultSet rs = ps.executeQuery(query);
             while (rs.next()) {
@@ -43,9 +43,8 @@ public class NoJugableDAO {
     public static NoJugable leerUnNoJugable(int idNoJugable) throws ClassNotFoundException, SQLException{
         List<NoJugable> noJugables = new ArrayList<NoJugable>();
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("Meter el nombre de la base de datos", "root", "Msguez2003");
-            String query = "SELECT * FROM NoJugable WHERE idNoJugable = ?";
+        	Connection con = DatabaseConnection.getConnection();
+            String query = "SELECT * FROM NoJugable LEFT JOIN Personaje ON NoJugable.idNoJugable = Personaje.token WHERE NoJugable.idNoJugable = ?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, idNoJugable);
             ResultSet rs = ps.executeQuery();
