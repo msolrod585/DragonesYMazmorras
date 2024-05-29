@@ -7,15 +7,15 @@ import java.util.List;
 
 import Juego.Combate;
 import Juego.NoJugable;
+import basededatos.DatabaseConnection;
 
 public class CombateDAO {
     public static List<Combate> leerCombatesPorMazmorra(int idMazmorra) throws ClassNotFoundException, SQLException {
         List<Combate> combates = new ArrayList<>();
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dragonesymazmorras", "root", "Msguez2003");
-            String query = "SELECT * FROM combates WHERE mazmorra = ?";
+        	Connection con = DatabaseConnection.getConnection();
+            String query = "SELECT * FROM combate WHERE mazmorra = ?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, idMazmorra);
             ResultSet rs = ps.executeQuery();

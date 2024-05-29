@@ -7,16 +7,15 @@ public class Mazmorra {
     private final static String[] dificutades = {"Facil", "Medio", "Dificil", "Pesadilla"};
     private String dificultad;
     private List <Combate> combates;
-    private int nivelMinimo;
+
 
     public Mazmorra() {
     }
 
-    public Mazmorra(int numSalas, String dificultad,List<Combate> combates, int nivelMinimo) {
+    public Mazmorra(int numSalas, String dificultad,List<Combate> combates) {
         this.numSalas = numSalas;
         this.dificultad = dificultad;
         this.combates=combates;
-        this.nivelMinimo = nivelMinimo;
     }
 
 
@@ -36,13 +35,6 @@ public class Mazmorra {
         this.dificultad = dificultad;
     }
 
-    public int getNivelMinimo() {
-        return nivelMinimo;
-    }
-
-    public void setNivelMinimo(int nivelMinimo) {
-        this.nivelMinimo = nivelMinimo;
-    }
 
     public List<Combate> getCombates() {
         return combates;

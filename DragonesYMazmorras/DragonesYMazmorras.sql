@@ -220,6 +220,7 @@ WHERE NoJugable.legendario = TRUE;
 
 
 
+
 -- Funciones/Procedimientos
 
 /*Procedimiento que actualiza un equipo*/

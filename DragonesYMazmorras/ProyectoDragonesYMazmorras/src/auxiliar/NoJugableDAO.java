@@ -8,19 +8,19 @@ import Juego.Armas;
 import Juego.Atributo;
 import Juego.NoJugable;
 import Juego.Raza;
+import basededatos.DatabaseConnection;
 
 
 public class NoJugableDAO {
     public static List<NoJugable> leerNoJugables() throws ClassNotFoundException, SQLException{
         List<NoJugable> noJugables = new ArrayList<NoJugable>();
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dragonesymazmorras", "root", "Msguez2003");
-            String query = "SELECT * FROM no_jugables";
+        	Connection con = DatabaseConnection.getConnection();
+            String query = "SELECT * FROM NoJugable";
             Statement ps = con.createStatement();
             ResultSet rs = ps.executeQuery(query);
             while (rs.next()) {
-                Armas arma = ArmaDAO.leerUnaArma(rs.getInt("arma"));
+            	Armas arma = ArmaDAO.leerUnaArma(rs.getInt("arma"));
                 Raza raza = RazaDAO.leerUnaRaza(rs.getInt("raza"));
                 Atributo atributo = AtributosDAO.leerAtributos(rs.getInt("atributos"));
 
@@ -45,7 +45,7 @@ public class NoJugableDAO {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("Meter el nombre de la base de datos", "root", "Msguez2003");
-            String query = "SELECT * FROM no_jugables WHERE idNoJugable = ?";
+            String query = "SELECT * FROM NoJugable WHERE idNoJugable = ?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, idNoJugable);
             ResultSet rs = ps.executeQuery();

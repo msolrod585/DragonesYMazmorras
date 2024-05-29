@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Juego.Clase;
+import basededatos.DatabaseConnection;
 
 public class ClaseDAO {
     public static List<Clase> leerClases() throws SQLException, ClassNotFoundException {
         List<Clase> clases = new ArrayList<>();
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dragonesymazmorras", "root", "Msguez2003");
+        	Connection con = DatabaseConnection.getConnection();
             String query = "SELECT * FROM clases";
             Statement ps = con.createStatement();
             ResultSet rs = ps.executeQuery(query);
@@ -33,8 +33,7 @@ public class ClaseDAO {
     public static Clase leerClases(int idClase) throws SQLException, ClassNotFoundException {
         List<Clase> clases = new ArrayList<>();
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("Meter el nombre de la base de datos", "root", "Msguez2003");
+        	Connection con = DatabaseConnection.getConnection();
             String query = "SELECT * FROM clases WHERE idClase = ?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, idClase);

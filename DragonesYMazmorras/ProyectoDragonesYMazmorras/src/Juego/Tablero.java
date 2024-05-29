@@ -1,10 +1,17 @@
 package Juego;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+
+import auxiliar.ArmaDAO;
+import auxiliar.ClaseDAO;
+import auxiliar.MazmorraDAO;
+import auxiliar.NoJugableDAO;
+import auxiliar.RazaDAO;
 
 /*
  * El tablero es nuestro lugar de juego
@@ -19,69 +26,17 @@ public class Tablero {
 	public static final String YELLOW = "\033[0;33m";
 	public static final String BLUE = "\033[0;34m";
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		
-		List<Raza> razasDisponibles = new ArrayList<>();
+		List<Raza> razasDisponibles = RazaDAO.leerRazas();
 
-		Raza raza1 = new Raza("Elfo", 100, 30, "Élfico", true, "Mediano");
-		Raza raza2 = new Raza("Enano", 150, 20, "Enánico", false, "Pequeño");
-		Raza raza3 = (new Raza("Humano", 80, 40, "Común", false, "Mediano"));
-		Raza raza4 = (new Raza("Orco", 60, 35, "Orco", false, "Grande"));
-		Raza raza5 = (new Raza("Hada", 200, 25, "Feérico", true, "Pequeño"));
-		Raza raza6 = (new Raza("Gnomo", 120, 20, "Gnómico", false, "Pequeño"));
-		Raza raza7 = (new Raza("Troll", 40, 25, "Trol", false, "Grande"));
-		Raza raza8 = (new Raza("Dragón", 1000, 50, "Dragónico", true, "Enorme"));
-		Raza raza9 = (new Raza("Naga", 300, 40, "Nagático", true, "Grande"));
-		Raza raza10 = (new Raza("Elfo Oscuro", 120, 35, "Élfico Oscuro", true, "Mediano"));
+		List<Armas> armas = ArmaDAO.leerArmas();
 
-		List<Armas> armas = new ArrayList<>();
-
-		Armas arma1 = new Armas("Espada", 10, 100, 50);
-		Armas arma2 = new Armas("Arco", 5, 80, 30);
-		Armas arma3 = new Armas("Daga", 3, 50, 20);
-		Armas arma4 = new Armas("Hacha", 12, 120, 60);
-		Armas arma5 = new Armas("Martillo", 15, 150, 70);
-		Armas arma6 = new Armas("Maza", 14, 140, 65);
-		Armas arma7 = new Armas("Ballesta", 8, 90, 40);
-		Armas arma8 = new Armas("Espada Larga", 18, 180, 80);
-		Armas arma9 = new Armas("Lanza", 10, 100, 55);
-		Armas arma10 = new Armas("Báculo", 6, 70, 25);
-		armas.add(arma10);
-		armas.add(arma9);
-		armas.add(arma8);
-		armas.add(arma7);
-		armas.add(arma6);
-		armas.add(arma5);
-		armas.add(arma4);
-		armas.add(arma3);
-		armas.add(arma2);
-		armas.add(arma1);
-
-		List<Clase> clasesDisponibles = new ArrayList<Clase>();
-		clasesDisponibles.add(new Clase("Guerrero", "Tanking", false));
-		clasesDisponibles.add(new Clase("Mago", "DPS", true));
-		clasesDisponibles.add(new Clase("Sacerdote", "Soporte", true));
-		clasesDisponibles.add(new Clase("Cazador", "DPS", false));
-		clasesDisponibles.add(new Clase("Paladín", "Tanking", false));
-		clasesDisponibles.add(new Clase("Ladrón", "DPS", false));
-		clasesDisponibles.add(new Clase("Chamán", "Soporte", true));
-		clasesDisponibles.add(new Clase("Brujo", "DPS", true));
-		clasesDisponibles.add(new Clase("Caballero de la Muerte", "Tanking", false));
-		clasesDisponibles.add(new Clase("Monje", "DPS", false));
+		List<Clase> clasesDisponibles = ClaseDAO.leerClases();
 
 		List<Jugable> personajesJugables = new ArrayList<>();
 
-		List<NoJugable> enemigos = new ArrayList<>();
-		enemigos.add(new NoJugable("Orco Guerrero", 8, raza1, arma1, new Atributo(), false, "Fuego"));
-		enemigos.add(new NoJugable("Elfo Arquero", 9, raza2, arma2, new Atributo(), false, "Agua"));
-		enemigos.add(new NoJugable("Goblin Ladrón", 7, raza3, arma3, new Atributo(), false, "Tierra"));
-		enemigos.add(new NoJugable("Enano Guerrero", 10, raza4, arma4, new Atributo(), true, "Roca"));
-		enemigos.add(new NoJugable("Trol Berserker", 12, raza5, arma5, new Atributo(), true, "Acido"));
-		enemigos.add(new NoJugable("Hombre Bestia Salvaje", 15, raza6, arma6, new Atributo(), true, "Rayos"));
-		enemigos.add(new NoJugable("Gnomo Ingeniero", 10, raza7, arma7, new Atributo(), false, "Magia"));
-		enemigos.add(new NoJugable("No Muerto Caballero", 11, raza8, arma8, new Atributo(), true, "Ninguna"));
-		enemigos.add(new NoJugable("Dragón Anciano", 20, raza9, arma9, new Atributo(), true, "Fuego"));
-		enemigos.add(new NoJugable("Ogro Jefe", 14, raza10, arma10, new Atributo(), true, "Hierro"));
+		List<NoJugable> enemigos = NoJugableDAO.leerNoJugables();
 
 		List<Jugable> Party = new ArrayList<>();
 		List<Combate> desafioFacil = new ArrayList<>();
@@ -89,11 +44,11 @@ public class Tablero {
 		List<Combate> desafioDificil = new ArrayList<>();
 		List<Combate> desafioPesadilla = new ArrayList<>();
 
-		List<Mazmorra> Mazmorras = new ArrayList<>();
-		Mazmorra facil = new Mazmorra(3, "Fácil", desafioFacil, 3);
-		Mazmorra medio = new Mazmorra(4, "Medio", desafioMedio, 8);
-		Mazmorra dificil = new Mazmorra(5, "Dificil", desafioDificil, 12);
-		Mazmorra pesadilla = new Mazmorra(7, "Pesadilla", desafioPesadilla, 20);
+		List<Mazmorra> Mazmorras = MazmorraDAO.leerMazmorras();
+		Mazmorra facil = new Mazmorra(3, "Fácil", desafioFacil);
+		Mazmorra medio = new Mazmorra(4, "Medio", desafioMedio);
+		Mazmorra dificil = new Mazmorra(5, "Dificil", desafioDificil);
+		Mazmorra pesadilla = new Mazmorra(7, "Pesadilla", desafioPesadilla);
 
 		Scanner sc = new Scanner(System.in);
 		

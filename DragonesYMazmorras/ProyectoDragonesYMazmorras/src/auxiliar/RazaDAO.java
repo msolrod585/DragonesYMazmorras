@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Juego.Raza;
+import basededatos.DatabaseConnection;
 
 public class RazaDAO {
     public static List<Raza> leerRazas() throws SQLException, ClassNotFoundException{
         List<Raza> razas = new ArrayList<>();
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dragonesymazmorras" , "root", "Msguez2003");
+        	Connection con = DatabaseConnection.getConnection();
             String query = "SELECT * FROM razas";
             Statement ps = con.createStatement();
             ResultSet rs = ps.executeQuery(query);
@@ -36,8 +36,7 @@ public class RazaDAO {
     public static Raza leerUnaRaza(int idRaza) throws SQLException, ClassNotFoundException{
         List<Raza> razas = new ArrayList<>();
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("Meter el nombre de la base de datos" , "root", "Msguez2003");
+        	Connection con = DatabaseConnection.getConnection();
             String query = "SELECT * FROM razas WHERE idRaza = ?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, idRaza);

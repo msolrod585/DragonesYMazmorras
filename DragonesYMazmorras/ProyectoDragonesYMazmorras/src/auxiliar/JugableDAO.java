@@ -10,13 +10,13 @@ import Juego.Armas;
 import Juego.Atributo;
 import Juego.Clase;
 import Juego.Raza;
+import basededatos.DatabaseConnection;
 
 public class JugableDAO {
-    public static List<Jugable> leerNoJugables() throws ClassNotFoundException, SQLException{
+    public static List<Jugable> leerJugables() throws ClassNotFoundException, SQLException{
         List<Jugable> jugables = new ArrayList<>();
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dragonesymazmorras", "root", "Msguez2003");
+        	Connection con = DatabaseConnection.getConnection();
             String query = "SELECT * FROM no_jugables";
             Statement ps = con.createStatement();
             ResultSet rs = ps.executeQuery(query);
@@ -44,8 +44,7 @@ public class JugableDAO {
     
     public static void insertarJugable(Jugable jugable) throws SQLException, ClassNotFoundException {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dragonesymazmorras", "root", "Msguez2003");
+        	Connection con = DatabaseConnection.getConnection();
             String query = "INSERT INTO jugables (nombre, nivel, raza, arma, atributos, jugador, clase, oro) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, jugable.getNombre());
@@ -65,8 +64,7 @@ public class JugableDAO {
     
     public static void borrarJugable(Jugable jugable) throws SQLException, ClassNotFoundException {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dragonesymazmorras", "root", "Msguez2003");
+        	Connection con = DatabaseConnection.getConnection();
             String query = "DELETE FROM jugables WHERE idJugable = ?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, jugable.getId());

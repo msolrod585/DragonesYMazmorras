@@ -7,14 +7,14 @@ import java.util.List;
 
 import Juego.Combate;
 import Juego.Mazmorra;
+import basededatos.DatabaseConnection;
 
 public class MazmorraDAO {
-    public List<Mazmorra> leerMazmorras() throws ClassNotFoundException, SQLException {
+    public static List<Mazmorra> leerMazmorras() throws ClassNotFoundException, SQLException {
         List<Mazmorra> mazmorras = new ArrayList<>();
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dragonesymazmorras", "root", "Msguez2003");
+        	Connection con = DatabaseConnection.getConnection();
             String query = "SELECT * FROM mazmorras";
             Statement ps = con.createStatement();
             ResultSet rs = ps.executeQuery(query);
@@ -25,7 +25,6 @@ public class MazmorraDAO {
 
                 mazmorra.setNumSalas(rs.getInt("numSalas"));
                 mazmorra.setDificultad(rs.getString("dificultad"));
-                mazmorra.setNivelMinimo(rs.getInt("nivelMinimo"));
                 mazmorra.setCombates(combates);
                 mazmorras.add(mazmorra);
             }
