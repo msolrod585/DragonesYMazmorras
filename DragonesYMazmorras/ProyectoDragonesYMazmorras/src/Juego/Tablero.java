@@ -435,7 +435,7 @@ public class Tablero {
 
 	public static int tirada() {
         Random random = new Random();
-        int dado = random.nextInt(21);
+        int dado = random.nextInt(20) + 1;
         return dado;
     }
 }
